@@ -1,0 +1,399 @@
+/* =========================================================
+   1. VARIÁVEIS DE COR E TAMANHO
+   Mudou aqui, muda no site inteiro.
+   ========================================================= */
+:root {
+  color-scheme: dark;
+
+  /* Fundos */
+  --fundo-pagina: #0b0b0b;
+  --fundo-painel: #191919;
+  --borda: rgba(255, 255, 255, 0.10);
+
+  /* Textos */
+  --texto-principal: #efefef;
+  --texto-secundario: #9c9c9c;
+
+  /* Cores dos dados */
+  --cor-serie: #338ced;     /* linha do preço nos gráficos */
+  --cor-alta: #53c556;      /* subiu ▲ */
+  --cor-queda: #eb6263;     /* caiu ▼ */
+  --cor-grade: #303030;     /* linhas de fundo dos gráficos */
+  --cor-eixo: #474747;      /* linha vertical que segue o mouse */
+  --cor-botao: #1b64be;     /* fundo do botão principal (contraste 5,8:1 com branco) */
+  --cor-botao-hover: #1757ac;
+
+  /* Espaçamentos e cantos */
+  --espaco: 16px;
+  --raio: 12px;
+
+  --fonte: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* =========================================================
+   2. BASE
+   ========================================================= */
+* {
+  box-sizing: border-box; /* largura inclui borda e espaço interno: evita surpresas */
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte);
+  background: var(--fundo-pagina);
+  color: var(--texto-principal);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--cor-serie);
+}
+
+h1, h2 {
+  margin: 0;
+}
+
+/* =========================================================
+   3. CABEÇALHO
+   ========================================================= */
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--espaco);
+  padding: var(--espaco) calc(var(--espaco) * 1.5);
+  border-bottom: 1px solid var(--borda);
+}
+
+.cabecalho__titulo {
+  font-size: 1.4rem;
+}
+
+.cabecalho__titulo span {
+  color: #f7931a; /* laranja do Bitcoin, só decorativo */
+}
+
+/* =========================================================
+   4. CONTEÚDO PRINCIPAL
+   ========================================================= */
+.conteudo {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: calc(var(--espaco) * 1.5);
+  display: grid;
+  /* minmax(0, 1fr): a coluna pode encolher até caber na tela.
+     Sem isso, a tabela larga "empurra" a página inteira no celular. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: calc(var(--espaco) * 1.5);
+}
+
+/* Enquanto carrega, os painéis ficam "apagados" (o JS liga o aria-busy) */
+.cartao,
+.painel {
+  transition: opacity 0.2s;
+}
+
+.conteudo[aria-busy="true"] .cartao,
+.conteudo[aria-busy="true"] .painel {
+  opacity: 0.55;
+}
+
+/* "hidden" precisa vencer o display:flex abaixo */
+.aviso[hidden] {
+  display: none;
+}
+
+.aviso {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--espaco);
+  margin: 0;
+  padding: 12px var(--espaco);
+  border-radius: var(--raio);
+  background: var(--fundo-painel);
+  border: 1px solid var(--borda);
+  color: var(--texto-secundario);
+}
+
+/* =========================================================
+   5. CARTÕES DE KPI
+   Grid: 4 colunas no computador, 2 no tablet, 1 no celular.
+   ========================================================= */
+.cartoes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--espaco);
+}
+
+.cartao,
+.painel {
+  background: var(--fundo-painel);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: calc(var(--espaco) * 1.25);
+}
+
+.cartao__titulo {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--texto-secundario);
+}
+
+.cartao__valor {
+  margin: 4px 0 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.cartao__detalhe {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: var(--texto-secundario);
+}
+
+.cartao__detalhe:empty {
+  display: none; /* sem texto, não ocupa espaço */
+}
+
+/* Classes que o JavaScript vai aplicar nas Etapas 3 em diante */
+.alta  { color: var(--cor-alta); }
+.queda { color: var(--cor-queda); }
+
+/* =========================================================
+   6. PAINÉIS E GRÁFICOS
+   ========================================================= */
+.painel__titulo {
+  font-size: 1.1rem;
+}
+
+/* Título à esquerda e botão à direita */
+.painel__cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--espaco);
+  margin-bottom: 8px;
+}
+
+.painel__subtitulo {
+  margin: 2px 0 var(--espaco);
+  font-size: 0.9rem;
+  color: var(--texto-secundario);
+}
+
+/* Altura fixa para o gráfico não "crescer" sem parar */
+.grafico {
+  position: relative;
+  height: 320px;
+}
+
+/* =========================================================
+   7. BOTÕES
+   ========================================================= */
+.botao {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--borda);
+  background: transparent;
+  color: var(--texto-principal);
+  cursor: pointer;
+}
+
+.botao:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.botao:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.botao--ativo {
+  background: rgba(51, 140, 237, 0.18);
+  border-color: var(--cor-serie);
+}
+
+/* Azul mais escuro que o da linha: texto branco precisa de contraste ≥ 4,5:1 */
+.botao--principal {
+  background: var(--cor-botao);
+  border-color: var(--cor-botao);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.botao--principal:hover:not(:disabled) {
+  background: var(--cor-botao-hover);
+}
+
+/* Contorno visível ao navegar com o teclado (acessibilidade) */
+.botao:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--cor-serie);
+  outline-offset: 2px;
+}
+
+.seletor-moeda {
+  display: flex;
+  gap: 6px;
+}
+
+/* =========================================================
+   8. SELETOR DE PERÍODO
+   ========================================================= */
+.periodo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--espaco);
+  margin: var(--espaco) 0;
+}
+
+.periodo__campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--texto-secundario);
+}
+
+.periodo__campo input {
+  font: inherit;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--borda);
+  background: var(--fundo-pagina);
+  color: var(--texto-principal);
+}
+
+.periodo__atalhos {
+  display: flex;
+  gap: 6px;
+}
+
+.erro-campo {
+  margin: 0 0 var(--espaco);
+  color: var(--cor-queda);
+  font-size: 0.9rem;
+}
+
+/* Resumo: mínimo, máximo, média, variação */
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--espaco);
+  margin: 0 0 var(--espaco);
+}
+
+.resumo dt {
+  font-size: 0.85rem;
+  color: var(--texto-secundario);
+}
+
+.resumo dd {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+/* =========================================================
+   9. TABELA
+   ========================================================= */
+.tabela-container {
+  overflow-x: auto; /* no celular, a tabela rola para o lado em vez de quebrar */
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.tabela th,
+.tabela td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--cor-grade);
+}
+
+.tabela th {
+  font-weight: 500;
+  color: var(--texto-secundario);
+}
+
+/* Números alinhados à direita e com dígitos de mesma largura */
+.tabela .numero {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Botão "Data ↓" no cabeçalho: parece texto, mas é clicável */
+.botao-ordenar {
+  font: inherit;
+  font-weight: 500;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.botao-ordenar:hover {
+  color: var(--texto-principal);
+}
+
+.botao-ordenar:focus-visible {
+  outline: 2px solid var(--cor-serie);
+  outline-offset: 2px;
+}
+
+.tabela__vazia {
+  text-align: center !important;
+  color: var(--texto-secundario);
+  padding: calc(var(--espaco) * 2) !important;
+}
+
+.paginacao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--espaco);
+  margin-top: var(--espaco);
+  color: var(--texto-secundario);
+  font-size: 0.9rem;
+}
+
+/* =========================================================
+   10. RODAPÉ
+   ========================================================= */
+.rodape {
+  text-align: center;
+  padding: var(--espaco);
+  font-size: 0.85rem;
+  color: var(--texto-secundario);
+}
+
+/* =========================================================
+   11. RESPONSIVIDADE (telas menores)
+   ========================================================= */
+@media (max-width: 900px) {
+  .cartoes,
+  .resumo {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .cartoes {
+    grid-template-columns: 1fr;
+  }
+
+  .grafico {
+    height: 240px;
+  }
+}

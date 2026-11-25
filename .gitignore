@@ -1,0 +1,10 @@
+# Arquivos de sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Configurações pessoais do editor
+.vscode/
+
+# Configurações locais do Claude Code (podem ter permissões pessoais)
+.claude/settings.local.json
