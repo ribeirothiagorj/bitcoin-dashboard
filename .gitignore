@@ -8,3 +8,6 @@ desktop.ini
 
 # Configurações locais do Claude Code (podem ter permissões pessoais)
 .claude/settings.local.json
+
+# Instruções do Claude Code (ficam só no computador, não vão para o GitHub)
+CLAUDE.md

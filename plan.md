@@ -184,7 +184,7 @@ Cada etapa termina com algo **funcionando e visível**. Faça uma de cada vez.
 - [x] Atualização automática do preço a cada 60 s (pausa com a aba escondida)
 - [x] Exportar a tabela para CSV (formato do Excel brasileiro: `;` e vírgula decimal)
 - [x] Fallback para a API da Binance (automático; rodapé mostra a fonte usada)
-- [ ] Publicar grátis no GitHub Pages
+- [x] Publicar grátis no GitHub Pages → https://ribeirothiagorj.github.io/bitcoin-dashboard/
 
 ---
 
