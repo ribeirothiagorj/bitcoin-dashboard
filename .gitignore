@@ -1,0 +1,8 @@
+# Arquivos que o sistema operacional cria sozinho
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Configurações pessoais do editor e do Claude Code (cada pessoa tem as suas)
+.vscode/
+.claude/settings.local.json
